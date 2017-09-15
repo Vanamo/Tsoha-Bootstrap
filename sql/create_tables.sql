@@ -28,7 +28,7 @@ CREATE TABLE IngredientOfARecipe (
     recipe_id INTEGER REFERENCES Recipe(id),
     ingredient_id INTEGER REFERENCES Ingredient(id),
     unit_id INTEGER REFERENCES Unit(id),
-    amount DOUBLE,
+    amount decimal,
     listOrder INTEGER 
 );
 

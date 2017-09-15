@@ -5,6 +5,14 @@ Yleisiä linkkejä:
 * [Linkki sovellukseeni]
 http://vseppane.users.cs.helsinki.fi/keittokirja/
 
+http://vseppane.users.cs.helsinki.fi/keittokirja/loginHome
+http://vseppane.users.cs.helsinki.fi/keittokirja/shoppingList
+http://vseppane.users.cs.helsinki.fi/keittokirja/search
+http://vseppane.users.cs.helsinki.fi/keittokirja/recipe
+http://vseppane.users.cs.helsinki.fi/keittokirja/login
+http://vseppane.users.cs.helsinki.fi/keittokirja/addRecipe
+http://vseppane.users.cs.helsinki.fi/keittokirja/signUp
+
 * [Linkki dokumentaatiooni]
 https://github.com/Vanamo/Tsoha-Bootstrap/blob/master/doc/Dokumentaatio.pdf
 

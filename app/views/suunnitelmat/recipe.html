@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <h1>Pinaattiletut</h1>
+
+    <form>
+
+        <!-- taulu reseptin raaka-aineille -->
+        <div class="container">
+            <table class="table">
+                <caption>Raaka-aineet</caption>
+
+                <tbody>
+                    <tr>
+                        <td>4</td>
+                        <td>kpl</td>
+                        <td>kananmuna</td>
+                    </tr>     
+                    <tr>
+                        <td>1</td>
+                        <td>pss</td>
+                        <td>pinaatti</td>
+                    </tr>  
+                </tbody>
+            </table> 
+        </div>  
+        
+        <!-- Valmistusohjeet -->
+        <div class="form-group">
+            
+            <label>Valmistusohjeet</label>
+            
+            <textarea class="form-control">
+                Sekoita ainekset keskenään. Paista pannulla.
+            </textarea>
+        </div>
+
+        <!-- taulu reseptin tageille -->
+        <div class="container">
+            <table class="table">
+                <caption>Luokat</caption>
+
+                <tbody>
+                    <tr><td>helppo</td></tr>     
+                    <tr><td>kasvisruoka</td></tr>     
+                    <tr><td>pääruoka</td></tr>      
+                </tbody>
+            </table> 
+        </div>  
+        
+        <!-- Lisää ostoslistaan -nappi -->
+        <div class="form-group">
+            <button class="btn btn-primary" name="addChart" type="button">Lisää ostoslistaan</button>
+        </div>
+        
+        <!-- Lisää suosikiksi -nappi -->
+        <div class="form-group">
+            <button class="btn btn-primary" name="addFavorite" type="button">Lisää suosikiksi</button>
+        </div>
+                
+        <!-- Muokkaa reseptiä -nappi -->
+        <div class="form-group">
+            <button class="btn btn-primary" name="edit" type="button">Muokkaa reseptiä</button>
+        </div>
+    </form>
+
+{% endblock %}  

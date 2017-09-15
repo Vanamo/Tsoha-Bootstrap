@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+    <h1>Ostoslista</h1>
+
+    <form>
+
+        <!-- taulu ostoslistan aineille -->
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Määrä</th>
+                        <th></th>
+                        <th>Raaka-aine</th>    
+                    </tr>                  
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>4</td>
+                        <td>kpl</td>
+                        <td>kananmuna</td>
+                    </tr>                
+                </tbody>
+            </table> 
+        </div>    
+
+        <!-- taulu ostoslistan sisältämille resepteille -->
+        <div class="container">
+            <table class="table">
+                <caption>Ostoslistalla on raaka-aineet seuraaviin resepteihin:</caption>
+
+                <tbody>
+                    <tr>
+                        <td>Resepti1</td>
+                        <th><a class="btn btn-default btn-sm" href="#">Poista</a></th>
+                    </tr>                
+                </tbody>
+                
+            </table> 
+        </div>            
+    </form>
+    
+    <form class="form-inline">
+        
+        <!-- "tulosta"- ja "tyhjennä"-napit ostoslistalle -->
+        <div class="form-group">
+            <button class="btn btn-primary" name="print" type="button">Tulosta</button>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" name="empty" type="button">Tyhjennä ostoslista</button>
+        </div>
+    </form>
+
+        
+{% endblock %}      

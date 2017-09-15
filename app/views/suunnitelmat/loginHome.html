@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+    <h1>Keittokirja</h1>
+
+    <form class="form-inline">
+        
+        <!-- reseptien hakukenttä -->
+        <div class="form-group">
+            <input type="text" value="Hae reseptejä">
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" name="search" type="button">Hae</button>
+        </div>
+        
+    </form>
+    
+    <form>
+
+        <!-- taulu käyttäjän suosikkiresepteille -->
+        <div class="form-group">
+        <table class="table">
+                <caption>Omat suosikit</caption>
+                <tbody>
+                    <tr><td>Resepti1</td></tr>         
+                    <tr><td>Resepti2</td></tr>         
+                    <tr><td>Resepti3</td></tr>         
+                    <tr><td>Resepti4</td></tr>         
+                    <tr><td>Resepti5</td></tr>         
+                </tbody>
+            </table> 
+        </div>
+
+        <!-- taulu käyttäjän itse lisäämille resepteille -->
+        <div class="form-group">
+        <table class="table">
+                <caption>Omat reseptit</caption>
+                <tbody>
+                    <tr><td>Resepti1</td></tr>         
+                    <tr><td>Resepti2</td></tr>         
+                    <tr><td>Resepti3</td></tr>             
+                </tbody>
+            </table> 
+        </div> 
+        
+        <!-- Lisää resepti -nappi -->
+        <div class="form-group">
+            <button class="btn btn-primary" name="add" type="button">Lisää resepti</button>
+        </div> 
+    </form>
+
+        
+{% endblock %}        
+

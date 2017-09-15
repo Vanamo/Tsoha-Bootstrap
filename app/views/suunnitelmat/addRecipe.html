@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <h1>Lisää resepti</h1>
+        
+    <form>
+        <!-- Kenttä reseptin nimelle -->
+        <div class="form-group">
+            <label>Reseptin nimi</label> 
+            <input type="text" class="form-control">
+        </div>
+    </form>
+
+    <form class="form-inline">
+
+         <!-- Hakukenttä raaka-aineelle -->
+        <div class="form-group">
+            <label>Raaka-aine</label>
+            <input type="text" class="form-control">
+        </div>
+        
+        <!-- Raaka-aineen määrä -->
+        <div class="form-group">
+            <label>Määrä</label>
+            <input type="number" class="form-control">
+        </div>
+        
+        <!-- Raaka-aineen yksikkö -->
+        <div class="form-group">
+            <label class="control-label" for="region_id">Yksikkö</label>
+            <select class="form-control" id="region_id" name="region">
+                <option value="kpl">kpl</option>
+            </select>                  
+        </div>
+        
+        <!-- Lisää-nappi raaka-aineelle -->
+        <div class="form-group">
+            <button class="btn btn-primary" name="add" type="button">Lisää</button>
+        </div>
+        
+    </form>
+    
+    <form>
+        <!-- Tekstikenttä valmistusohjeelle -->
+    	<div class="form-group">
+		<label class="control-label " for="valmistusohje">Valmistusohje</label>
+		<textarea class="form-control" id="valmistusohje" 
+                          name="valmistusohje" rows="5"></textarea>
+        </div>
+
+    </form>
+    
+    <form class="form-inline">  
+        
+        <!-- Luokka-tagien hakukenttä -->
+        <div class="form-group">
+            <label>Luokat</label>
+            <input type="text" class="form-control">
+        </div>  
+        
+        <!-- Lisää luokka-tagi -->
+        <div class="form-group">
+            <button class="btn btn-primary" name="add" type="button">Lisää</button>
+        </div>
+        
+    </form>
+    
+    <form>
+        <!-- Lisää resepti -nappi -->
+        <div class="form-group">
+            <button class="btn btn-primary" name="add" type="submit">Lisää resepti</button>
+        </div>        
+    </form>
+        
+{% endblock %}

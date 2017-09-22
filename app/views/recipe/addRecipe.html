@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <h1>Lisää resepti</h1>
+        
+    <form method="post" action="{{base_path}}/recipe">
+        <!-- Kenttä reseptin nimelle -->
+        <div class="form-group">
+            <label>Reseptin nimi</label> 
+            <input type="text" name="name" class="form-control">
+        </div>
+
+         <!-- Hakukenttä raaka-aineelle -->
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Valitse raaka-aine
+                <span class="caret"></span></button> 
+                {% for ingredient in ingredients %} 
+                <ul class ="dropdown-menu">
+
+                    <li>{{ingredient.name}}</li>
+
+                </ul>  
+                {% endfor %} 
+        </div>
+        
+        <!-- Raaka-aineen määrä -->
+        <div class="form-group">
+            <label>Määrä</label>
+            <input type="number" class="form-control">
+        </div>
+        
+        <!-- Raaka-aineen yksikkö -->
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Valitse yksikkö
+                <span class="caret"></span></button> 
+                {% for unit in units %}
+                <ul class ="dropdown-menu">
+                    <li>{{unit.name}}</li>
+                </ul>                
+                {% endfor %}                 
+        </div>
+        
+        <!-- Lisää-nappi raaka-aineelle -->
+        <div class="form-group">
+            <button class="btn btn-primary" name="add" type="button">Lisää</button>
+        </div>
+
+        <!-- Tekstikenttä valmistusohjeelle -->
+    	<div class="form-group">
+		<label class="control-label " for="instructions">Valmistusohje</label>
+		<textarea class="form-control" 
+                          name="instructions" rows="5"></textarea>
+        </div>
+
+        <!-- Luokka-tagien hakukenttä -->
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Valitse luokka
+                <span class="caret"></span></button> 
+                {% for tag in tags %}
+                <ul class ="dropdown-menu">
+                    <li>{{tag.name}}</li>
+                </ul>                
+                {% endfor %}                 
+        </div>
+        
+        <!-- Lisää luokka-tagi -->
+        <div class="form-group">
+            <button class="btn btn-primary" name="add" type="button">Lisää</button>
+        </div>
+
+        <!-- Lisää resepti -nappi -->
+        <div class="form-group">
+            <button class="btn btn-primary" name="add" type="submit">Lisää resepti</button>
+        </div>        
+    </form>
+        
+{% endblock %}

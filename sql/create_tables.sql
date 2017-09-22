@@ -29,7 +29,7 @@ CREATE TABLE IngredientOfARecipe (
     ingredient_id INTEGER REFERENCES Ingredient(id),
     unit_id INTEGER REFERENCES Unit(id),
     amount decimal,
-    listOrder INTEGER 
+    listorder INTEGER 
 );
 
 CREATE TABLE Tag (

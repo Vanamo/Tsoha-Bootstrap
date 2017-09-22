@@ -4,20 +4,20 @@
 
     public static function index(){
       // make-metodi renderöi app/views-kansiossa sijaitsevia tiedostoja
-   	View::make('/suunnitelmat/home.html');
+   	View::make('/recipe/home.html');
     }
 
     public static function sandbox(){
-      // Testaa koodiasi täällä
-      echo ('helloworld.html');
+      $recipes = Recipe::all();
+      Kint::dump($recipes);
     }
 
     public static function loginHome(){
-   	View::make('/suunnitelmat/loginHome.html');
+   	View::make('/recipe/loginHome.html');
     }
     
     public static function addRecipe(){
-        View::make('suunnitelmat/addRecipe.html');
+        View::make('recipe/addRecipe.html');
     }
     
     public static function signUp(){
@@ -33,7 +33,7 @@
     }
             
     public static function recipe(){
-    View::make('suunnitelmat/recipe.html');
+    View::make('recipe/recipe.html');
     }
             
     public static function search(){

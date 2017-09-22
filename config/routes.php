@@ -1,7 +1,7 @@
 <?php
 
   $routes->get('/', function() {
-    HelloWorldController::index();
+    RecipeController::index();
   });
 
   $routes->get('/hiekkalaatikko', function() {
@@ -12,9 +12,17 @@
     HelloWorldController::loginHome();
   });
   
-  $routes->get('/addRecipe', function() {
-    HelloWorldController::addRecipe();
+  $routes->post('/recipe', function() {
+      RecipeController::store();
   });
+  
+  $routes->get('/recipe/addRecipe', function() {
+      RecipeController::create();
+  });  
+   
+  $routes->get('/recipe/:id', function($id){
+      RecipeController::show($id); 
+  }); 
   
   $routes->get('/signUp', function() {
     HelloWorldController::signUp();
@@ -26,11 +34,8 @@
       
   $routes->get('/shoppingList', function() {
     HelloWorldController::shoppingList();
-  });
-    
-  $routes->get('/recipe', function() {
-    HelloWorldController::recipe();
-  });
+  }); 
+ 
       
   $routes->get('/search', function() {
     HelloWorldController::search();

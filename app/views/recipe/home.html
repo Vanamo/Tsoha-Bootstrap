@@ -23,11 +23,11 @@
         <table class="table">
                 <caption>Suosituimmat reseptit</caption>
                 <tbody>
-                    <tr><td>Resepti1</td></tr>         
-                    <tr><td>Resepti2</td></tr>         
-                    <tr><td>Resepti3</td></tr>         
-                    <tr><td>Resepti4</td></tr>         
-                    <tr><td>Resepti5</td></tr>         
+                    {% for recipe in recipes %}
+                    <tr>
+                        <td><a href="{{base_path}}/recipe/{{recipe.id}}">{{recipe.name}}</td>
+                    </tr>   
+                    {% endfor %}
                 </tbody>
             </table> 
         </div>

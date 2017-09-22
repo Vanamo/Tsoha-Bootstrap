@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <h1>Pinaattiletut</h1>
+<h1>{{recipe.name}}</h1>
 
     <form>
 
@@ -11,16 +11,13 @@
                 <caption>Raaka-aineet</caption>
 
                 <tbody>
+                    {% for ingredientOfARecipe in ingredientsOfARecipe %}
                     <tr>
-                        <td>4</td>
-                        <td>kpl</td>
-                        <td>kananmuna</td>
+                        <td>{{ingredientOfARecipe.amount}}</td>
+                        <td>{{ingredientOfARecipe.unit_id}}</td>
+                        <td>{{ingredientOfARecipe.ingredient_id}}</td>
                     </tr>     
-                    <tr>
-                        <td>1</td>
-                        <td>pss</td>
-                        <td>pinaatti</td>
-                    </tr>  
+                    {% endfor %}
                 </tbody>
             </table> 
         </div>  
@@ -30,9 +27,9 @@
             
             <label>Valmistusohjeet</label>
             
-            <textarea class="form-control">
-                Sekoita ainekset keskenään. Paista pannulla.
-            </textarea>
+
+            <p>{{recipe.instructions}}</p>
+
         </div>
 
         <!-- taulu reseptin tageille -->
@@ -41,9 +38,9 @@
                 <caption>Luokat</caption>
 
                 <tbody>
-                    <tr><td>helppo</td></tr>     
-                    <tr><td>kasvisruoka</td></tr>     
-                    <tr><td>pääruoka</td></tr>      
+                    {% for tagOfARecipe in tagsOfARecipe %}
+                    <tr><td>{{tagOfARecipe.tag_id}}</td></tr>         
+                    {% endfor %}
                 </tbody>
             </table> 
         </div>  

@@ -3,6 +3,7 @@
 --Test data for the Customer table
 INSERT INTO Customer (name, password_hash, salt) VALUES ('Vanamo', 'sala123', 'da#?');
 INSERT INTO Customer (name, password_hash, salt) VALUES ('Esko', 'E123O', 'da#?');
+INSERT INTO Customer (name, password_hash, salt) VALUES ('Testi', 'testi', 'da#?');
 
 --Test data for the Ingredient table
 INSERT INTO Ingredient (name) VALUES ('kananmuna');

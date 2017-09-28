@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% import "macros/forms.html" as forms %}
 
 <h1>{{recipe.name}}</h1>
 
@@ -56,9 +57,12 @@
         </div>
                 
         <!-- Muokkaa reseptiä -nappi -->
-        <div class="form-group">
-            <button class="btn btn-primary" name="edit" type="button">Muokkaa reseptiä</button>
-        </div>
+        <form method="post" action="{{base_path}}/recipe/{{recipe.id}}/edit">
+            <button type="submit" class="btn btn-primary">Muokkaa reseptiä</button>
+        </form>
+        
+        <!-- Poista resepti -nappi -->
+        {{forms.destroy_button("#{base_path}/recipe/#{recipe.id}/destroy")}}
     </form>
 
 {% endblock %}  

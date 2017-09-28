@@ -4,7 +4,7 @@ CREATE TABLE Customer(
     id SERIAL PRIMARY KEY,
     name varchar(50) NOT NULL,
     password_hash varchar(50) NOT NULL,
-    salt varchar(10) NOT NULL
+    salt varchar(10)
 ); 
 
 CREATE TABLE Recipe(

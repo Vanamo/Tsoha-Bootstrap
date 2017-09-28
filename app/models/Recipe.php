@@ -6,6 +6,7 @@
     
     public function __construct($attributes) {
         parent::__construct($attributes);
+        $this->validators = array('validate_name');
     }
     public static function all(){
         $query = DB::connection()->prepare('SELECT * FROM Recipe');
@@ -100,6 +101,24 @@
         return $tagsOfARecipe;        
     }
 
+    public function validate_name() {
+        return $this->validate_string_length($this->name, $this->name);
+    }
+    
+    public function update(){
+        $query = DB::connection()->prepare('UPDATE Recipe SET name = :name, instructions = :instructions');
+        $query->execute(array(
+            'name' => $this->name, 
+            'instructions' => $this->instructions));
+        $row = $query->fetch();
+        
+        Kint::dump($row);
+    }
+    
+    public function destroy() {
+        $query = DB::connection()->prepare('DELETE FROM Recipe WHERE recipe_id = :id');
+        $query->execute();
+    }
 }
 
 

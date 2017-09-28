@@ -8,10 +8,6 @@
     HelloWorldController::sandbox();
   });
   
-  $routes->get('/loginHome', function() {
-    HelloWorldController::loginHome();
-  });
-  
   $routes->post('/recipe', function() {
       RecipeController::store();
   });
@@ -24,12 +20,32 @@
       RecipeController::show($id); 
   }); 
   
+  $routes->get('/recipe/:id/edit', function($id){
+  RecipeController::edit($id);
+  });
+  
+  $routes->post('recipe/:id/edit', function($id) {
+  RecipeController::update($id);
+  });
+  
+  $routes->post('recipe/:id/destroy', function($id){
+  RecipeController::destroy($id);
+  });
+  
   $routes->get('/signUp', function() {
     HelloWorldController::signUp();
   });
     
   $routes->get('/login', function() {
-    HelloWorldController::login();
+    UserController::login();
+  });
+  
+  $routes->post('/login', function() {
+      UserController::handle_login();
+  });
+  
+  $routes->get('/user/loginHome', function() {
+      UserController::showLoginHome();
   });
       
   $routes->get('/shoppingList', function() {

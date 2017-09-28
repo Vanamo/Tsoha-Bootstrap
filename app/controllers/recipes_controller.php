@@ -12,7 +12,6 @@ class RecipeController extends BaseController{
         $recipe = Recipe::find($id);
         $ingredientsOfARecipe = Recipe::findIngredientsOfARecipe($id);
         $tagsOfARecipe = Recipe::findTagsOfARecipe($id);
-        //Kint::dump($tagsOfARecipe);
         View::make('recipe/recipe.html', array('recipe' => $recipe, 
             'ingredientsOfARecipe' => $ingredientsOfARecipe,
             'tagsOfARecipe' => $tagsOfARecipe));
@@ -39,7 +38,6 @@ class RecipeController extends BaseController{
         $errors = $recipe->errors();
 
         if (count($errors) == 0) {
-            //Kint::dump($errors);
             $recipe->save();                
             Redirect::to('/recipe/' . $recipe->id, array('message' => 'Resepti on lisätty Keittokirjaan'));
 

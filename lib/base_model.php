@@ -20,10 +20,7 @@
       $errors = array();
         foreach($this->validators as $validator){
             // Kutsu validointimetodia tässä ja lisää sen palauttamat virheet errors-taulukkoon
-            $validator_errors[] = $this->{$validator}();
-            //Kint::dump($validator_errors);
-            //TÄMÄ PITÄÄ SAADA TOIMIMAAN OIKEIN!
-            $errors = array_merge($errors, $validator_errors);
+            $errors = array_merge($errors, $this->{$validator}());
         }
 
       return $errors;
@@ -38,7 +35,6 @@
         if (strlen($string) < $length) {
             $errors[] = 'Pituuden tulee olla vähintään kolme merkkiä';
         }
-        //Kint::dump($errors, $string, $length, $pituus);
         return $errors;
     }
 

@@ -81,8 +81,6 @@
         $query = DB::connection()->prepare('INSERT INTO Recipe (name, instructions) VALUES (:name, :instructions) RETURNING id');
         $query->execute(array('name' => $this->name, 'instructions' => $this->instructions));
         $row = $query->fetch();
-        //Kint::trace();
-        //Kint::dump($row);
         $this->id = $row['id'];
     }
 
@@ -110,9 +108,6 @@
         $query->execute(array(
             'name' => $this->name, 
             'instructions' => $this->instructions));
-        $row = $query->fetch();
-        
-        Kint::dump($row);
     }
     
     public function destroy() {

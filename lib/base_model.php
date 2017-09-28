@@ -22,18 +22,17 @@
             // Kutsu validointimetodia tässä ja lisää sen palauttamat virheet errors-taulukkoon
             $errors = array_merge($errors, $this->{$validator}());
         }
-
       return $errors;
     }
     
         
-    public function validate_string_length($string, $length){
+    public function validate_string_length($string, $length, $field_name){
         $errors = array();
         if ($string == '' || $string == null) {
-            $errors[] = 'Ei saa olla tyhjä!';
+            $errors[] = $field_name . ': Ei saa olla tyhjä!';
         }
         if (strlen($string) < $length) {
-            $errors[] = 'Pituuden tulee olla vähintään kolme merkkiä';
+            $errors[] = $field_name . ': Tulee olla vähintään kolme merkkiä pitkä!';
         }
         return $errors;
     }

@@ -100,7 +100,7 @@
     }
 
     public function validate_name() {
-        return $this->validate_string_length($this->name, 3);
+        return $this->validate_string_length($this->name, 3, 'Nimi');
     }
     
     public function update(){

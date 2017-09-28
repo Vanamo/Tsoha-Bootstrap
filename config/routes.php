@@ -24,11 +24,11 @@
   RecipeController::edit($id);
   });
   
-  $routes->post('recipe/:id/edit', function($id) {
+  $routes->post('/recipe/:id/edit', function($id) {
   RecipeController::update($id);
   });
   
-  $routes->post('recipe/:id/destroy', function($id){
+  $routes->post('/recipe/:id/destroy', function($id){
   RecipeController::destroy($id);
   });
   

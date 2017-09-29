@@ -2,7 +2,7 @@
 
 class IngredientOfARecipe extends BaseModel {
     
-    public $recipe_id, $ingredient_id, $unit_id, $amount, $listOrder;
+    public $amount, $ingredient_name, $unit_name, $listOrder;
     
         
     public function __construct($attributes) {

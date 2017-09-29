@@ -54,6 +54,9 @@
     </nav>
 
     <div id="main-container">
+        {% if message %}
+            {{message}}
+        {% endif %}
       <!-- Dynaaminen sisältö tulee tähän -->
       {% block content %}{% endblock %}
     </div>

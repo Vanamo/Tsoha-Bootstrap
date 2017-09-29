@@ -4,65 +4,61 @@
 
 <h1>{{recipe.name}}</h1>
 
-    <form>
 
-        <!-- taulu reseptin raaka-aineille -->
-        <div class="container">
-            <table class="table">
-                <caption>Raaka-aineet</caption>
+<!-- taulu reseptin raaka-aineille -->
+<div class="container">
+    <table class="table">
+        <caption>Raaka-aineet</caption>
 
-                <tbody>
-                    {% for ingredientOfARecipe in ingredientsOfARecipe %}
-                    <tr>
-                        <td>{{ingredientOfARecipe.amount}}</td>
-                        <td>{{ingredientOfARecipe.unit_id}}</td>
-                        <td>{{ingredientOfARecipe.ingredient_id}}</td>
-                    </tr>     
-                    {% endfor %}
-                </tbody>
-            </table> 
-        </div>  
-        
-        <!-- Valmistusohjeet -->
-        <div class="form-group">
-            
-            <label>Valmistusohjeet</label>
-            
+        <tbody>
+            {% for ingredient in ingredients %}
+            <tr>
+                <td>{{ingredient.amount}}</td>
+                <td>{{ingredient.unitName}}</td>
+                <td>{{ingredient.ingredientName}}</td>
+            </tr>     
+            {% endfor %}
+        </tbody>
+    </table> 
+</div>  
 
-            <p>{{recipe.instructions}}</p>
+<!-- Valmistusohjeet -->
+<div class="form-group">
 
-        </div>
+    <label>Valmistusohjeet</label>
 
-        <!-- taulu reseptin tageille -->
-        <div class="container">
-            <table class="table">
-                <caption>Luokat</caption>
 
-                <tbody>
-                    {% for tagOfARecipe in tagsOfARecipe %}
-                    <tr><td>{{tagOfARecipe.tag_id}}</td></tr>         
-                    {% endfor %}
-                </tbody>
-            </table> 
-        </div>  
-        
-        <!-- Lisää ostoslistaan -nappi -->
-        <div class="form-group">
-            <button class="btn btn-primary" name="addChart" type="button">Lisää ostoslistaan</button>
-        </div>
-        
-        <!-- Lisää suosikiksi -nappi -->
-        <div class="form-group">
-            <button class="btn btn-primary" name="addFavorite" type="button">Lisää suosikiksi</button>
-        </div>
-                
-        <!-- Muokkaa reseptiä -nappi -->
-        <form method="post" action="{{base_path}}/recipe/{{recipe.id}}/edit">
-            <button type="submit" class="btn btn-primary">Muokkaa reseptiä</button>
-        </form>
-        
-        <!-- Poista resepti -nappi -->
-        {{forms.destroy_button("#{base_path}/recipe/#{recipe.id}/destroy")}}
-    </form>
+    <p>{{recipe.instructions}}</p>
+
+</div>
+
+<!-- taulu reseptin tageille -->
+<div class="container">
+    <table class="table">
+        <caption>Luokat</caption>
+
+        <tbody>
+            {% for tagOfARecipe in tagsOfARecipe %}
+            <tr><td>{{tagOfARecipe.tag_id}}</td></tr>         
+            {% endfor %}
+        </tbody>
+    </table> 
+</div>  
+
+<!-- Lisää ostoslistaan -nappi -->
+<div class="form-group">
+    <button class="btn btn-primary" name="addChart" type="button">Lisää ostoslistaan</button>
+</div>
+
+<!-- Lisää suosikiksi -nappi -->
+<div class="form-group">
+    <button class="btn btn-primary" name="addFavorite" type="button">Lisää suosikiksi</button>
+</div>
+
+<!-- Muokkaa reseptiä -nappi -->
+<a class="btn btn-primary" href="{{base_path}}/recipe/{{recipe.id}}/edit">Muokkaa reseptiä</a>
+
+<!-- Poista resepti -nappi -->
+{{forms.destroy_button("#{base_path}/recipe/#{recipe.id}/destroy")}}
 
 {% endblock %}  

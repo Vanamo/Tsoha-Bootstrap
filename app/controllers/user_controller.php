@@ -1,6 +1,13 @@
 <?php
 
 class UserController extends BaseController{
+
+    public static function index(){
+        //Haetaan kaikki reseptit tietokannasta
+        //Tässä pitäisi hakea vain kymmenen suosituinta reseptiä
+        $recipes = Recipe::all();
+        View::make('user/home.html', array('recipes' => $recipes));
+    }
     
     public static function login() {
         View::make('user/login.html');
@@ -18,11 +25,16 @@ class UserController extends BaseController{
         } else {
             $_SESSION['user'] = $user->id;
             
-            Redirect::to('/user/loginHome', array('message' => 'Tervetuloa' . $user->name . '!'));
+            Redirect::to('/user/' . $user->id . '/loginHome', array('message' => 'Tervetuloa ' . $user->name . '!'));
         }
     }
     
-    public static function showLoginHome() {
-        View::make('/user/loginHome.html');
+    public static function showLoginHome($id) {
+        $user = User::find($id);
+        $userRecipes = Recipe::findUserRecipes($id);
+        $favoriteRecipes = Recipe::findFavoriteRecipes($id); 
+        View::make('/user/loginHome.html', array('user' => $user, 
+            'userRecipes' => $userRecipes, 
+            'favoriteRecipes' => $favoriteRecipes));
     }
 }

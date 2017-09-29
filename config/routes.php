@@ -1,7 +1,7 @@
 <?php
 
   $routes->get('/', function() {
-    RecipeController::index();
+    UserController::index();
   });
 
   $routes->get('/hiekkalaatikko', function() {
@@ -44,8 +44,8 @@
       UserController::handle_login();
   });
   
-  $routes->get('/user/loginHome', function() {
-      UserController::showLoginHome();
+  $routes->get('/user/:id/loginHome', function($id) {
+      UserController::showLoginHome($id);
   });
       
   $routes->get('/shoppingList', function() {

@@ -1,21 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <h1>Lisää resepti</h1>
+    <h1>Muokkaa reseptiä</h1>
     
     {% if errors %}
         <div class="alert alert-danger">
-            {% for error in errors %}
             <ul>
-                <!--{% for error in errors %}-->
+                {% for error in errors %}
                 <li>{{error}}</li>
-                <!--{% endfor %}-->
+                {% endfor %}
             </ul>
-            {% endfor %}
         </div>
     {% endif %}
     
-    <form method="post" action="{{base_path}}/recipe">
+    <form method="post" action="{{base_path}}/recipe/{{attributes.id}}/edit">
         <!-- Kenttä reseptin nimelle -->
         <div class="form-group">
             <label>Reseptin nimi</label> 
@@ -23,16 +21,13 @@
         </div>
 
          <!-- Hakukenttä raaka-aineelle -->
-        <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Valitse raaka-aine
-                <span class="caret"></span></button> 
+        <div class="form-group">
+            <label>Valitse raaka-aine</label>
+            <select class="form-control" name="ingredient">
                 {% for ingredient in ingredients %} 
-                <ul class ="dropdown-menu">
-
-                    <li>{{ingredient.name}}</li>
-
-                </ul>  
+                <option value="{{ingredient.id}}">{{ingredient.name}}</option>
                 {% endfor %} 
+            </select>
         </div>
         
         <!-- Raaka-aineen määrä -->
@@ -40,17 +35,16 @@
             <label>Määrä</label>
             <input type="number" class="form-control">
         </div>
-        
+               
         <!-- Raaka-aineen yksikkö -->
-        <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Valitse yksikkö
-                <span class="caret"></span></button> 
-                {% for unit in units %}
-                <ul class ="dropdown-menu">
-                    <li>{{unit.name}}</li>
-                </ul>                
-                {% endfor %}                 
-        </div>
+        <div class="form-group">
+            <label>Valitse raaka-aineen yksikkö</label>
+            <select class="form-control" name="unit">
+                {% for unit in units %} 
+                <option value="{{unit.id}}">{{unit.name}}</option>
+                {% endfor %} 
+            </select>
+        </div>   
         
         <!-- Lisää-nappi raaka-aineelle -->
         <div class="form-group">
@@ -65,14 +59,13 @@
         </div>
 
         <!-- Luokka-tagien hakukenttä -->
-        <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Valitse luokka
-                <span class="caret"></span></button> 
-                {% for tag in tags %}
-                <ul class ="dropdown-menu">
-                    <li>{{tag.name}}</li>
-                </ul>                
-                {% endfor %}                 
+        <div class="form-group">
+            <label>Valitse luokka</label>
+            <select class="form-control" name="tags">
+                {% for tag in tags %} 
+                <option value="{{tag.id}}">{{tag.name}}</option>
+                {% endfor %} 
+            </select>
         </div>
         
         <!-- Lisää luokka-tagi -->

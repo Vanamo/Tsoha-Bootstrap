@@ -2,7 +2,7 @@
 {% block content %}
 
 
-    <h1>Keittokirja</h1>
+    <h1>{{user.name}}n Keittokirja</h1>
 
     <form class="form-inline">
         
@@ -23,11 +23,9 @@
         <table class="table">
                 <caption>Omat suosikit</caption>
                 <tbody>
-                    <tr><td>Resepti1</td></tr>         
-                    <tr><td>Resepti2</td></tr>         
-                    <tr><td>Resepti3</td></tr>         
-                    <tr><td>Resepti4</td></tr>         
-                    <tr><td>Resepti5</td></tr>         
+                    {% for favoriteRecipe in favoriteRecipes %}
+                    <tr><td><a href="{{base_path}}/recipe/{{favoriteRecipe.id}}">{{favoriteRecipe.id}}</a></td></tr>
+                    {% endfor %}
                 </tbody>
             </table> 
         </div>
@@ -37,19 +35,12 @@
         <table class="table">
                 <caption>Omat reseptit</caption>
                 <tbody>
-                    <tr><td>Resepti1</td></tr>         
-                    <tr><td>Resepti2</td></tr>         
-                    <tr><td>Resepti3</td></tr>             
+                    {% for userRecipe in userRecipes %}
+                    <tr><td><a href="{{base_path}}/recipe/{{userRecipe.id}}">{{userRecipe.name}}</a></td></tr>
+                    {% endfor %}          
                 </tbody>
             </table> 
         </div> 
-        
-        <!-- Lisää resepti -nappi -->
-        <div class="form-group">
-            <button class="btn btn-primary" name="add" type="button">Lisää resepti</button>
-        </div> 
-    </form>
-
         
 {% endblock %}        
 

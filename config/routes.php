@@ -32,6 +32,14 @@
   RecipeController::destroy($id);
   });
   
+  $routes->post('/recipe/:id/addFavorite', function($id) {
+  UserController::storeFavorite($id);
+  });
+    
+  $routes->post('/recipe/:id/removeFavorite', function($id) {
+  UserController::destroyFavorite($id);
+  });
+  
   $routes->get('/signUp', function() {
     HelloWorldController::signUp();
   });
@@ -41,11 +49,15 @@
   });
   
   $routes->post('/login', function() {
-      UserController::handle_login();
+    UserController::handle_login();
+  });
+  
+  $routes->post('/logout', function() {
+    UserController::logout();
   });
   
   $routes->get('/user/:id/loginHome', function($id) {
-      UserController::showLoginHome($id);
+    UserController::showLoginHome($id);
   });
       
   $routes->get('/shoppingList', function() {

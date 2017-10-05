@@ -24,7 +24,7 @@
                 <caption>Omat suosikit</caption>
                 <tbody>
                     {% for favoriteRecipe in favoriteRecipes %}
-                    <tr><td><a href="{{base_path}}/recipe/{{favoriteRecipe.id}}">{{favoriteRecipe.id}}</a></td></tr>
+                    <tr><td><a href="{{base_path}}/recipe/{{favoriteRecipe.recipe_id}}">{{favoriteRecipe.name}}</a></td></tr>
                     {% endfor %}
                 </tbody>
             </table> 

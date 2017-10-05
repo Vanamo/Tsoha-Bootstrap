@@ -60,17 +60,12 @@
 
         <!-- Luokka-tagien hakukenttä -->
         <div class="form-group">
-            <label>Valitse luokka</label>
-            <select class="form-control" name="tags">
+            <label>Valitse luokka (voit valita useamman pitämällä ctrl-painiketta pohjassa)</label>
+            <select class="form-control" name="tags[]" multiple="">
                 {% for tag in tags %} 
                 <option value="{{tag.id}}">{{tag.name}}</option>
                 {% endfor %} 
             </select>
-        </div>
-        
-        <!-- Lisää luokka-tagi -->
-        <div class="form-group">
-            <button class="btn btn-primary" name="add" type="button">Lisää</button>
         </div>
 
         <!-- Lisää resepti -nappi -->

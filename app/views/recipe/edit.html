@@ -1,82 +1,113 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <h1>Muokkaa reseptiä</h1>
-    
-    {% if errors %}
-        <div class="alert alert-danger">
-            <ul>
-                {% for error in errors %}
-                <li>{{error}}</li>
+<h1>Muokkaa reseptiä</h1>
+
+{% if errors %}
+<div class="alert alert-danger">
+    <ul>
+        {% for error in errors %}
+        <li>{{error}}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<form method="post" action="{{base_path}}/recipe/{{attributes.id}}/edit">
+
+    <!-- Kenttä reseptin nimelle -->
+    <div class="form-group">
+        <label>Reseptin nimi</label> 
+        <input type="text" name="name" class="form-control" value="{{attributes.name}}">
+    </div>
+
+    <!-- taulu reseptin raaka-aineille -->
+    <div class="container">
+        <table class="table">
+            <caption>Raaka-aineet</caption>
+
+            <tbody>
+                {% for ingredientOfARecipe in ingredientsOfARecipe %}
+                <tr>
+                    <td>{{ingredientOfARecipe.amount}}</td>
+                    <td>{{ingredientOfARecipe.unit_name}}</td>
+                    <td>{{ingredientOfARecipe.ingredient_name}}</td>
+                    <th><a class="btn btn-danger" href="{{base_path}}/recipe/{{recipe.id}}/{{ingredientOfARecipe.id}}/destroy">Poista</a></th>
+                </tr>     
                 {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
-    
-    <form method="post" action="{{base_path}}/recipe/{{attributes.id}}/edit">
-        <!-- Kenttä reseptin nimelle -->
-        <div class="form-group">
-            <label>Reseptin nimi</label> 
-            <input type="text" name="name" class="form-control" value="{{attributes.name}}">
-        </div>
+            </tbody>
+        </table> 
+    </div> 
 
-         <!-- Hakukenttä raaka-aineelle -->
-        <div class="form-group">
-            <label>Valitse raaka-aine</label>
-            <select class="form-control" name="ingredient">
-                {% for ingredient in ingredients %} 
-                <option value="{{ingredient.id}}">{{ingredient.name}}</option>
-                {% endfor %} 
-            </select>
-        </div>
-        
-        <!-- Raaka-aineen määrä -->
-        <div class="form-group">
-            <label>Määrä</label>
-            <input type="number" class="form-control">
-        </div>
-               
-        <!-- Raaka-aineen yksikkö -->
-        <div class="form-group">
-            <label>Valitse raaka-aineen yksikkö</label>
-            <select class="form-control" name="unit">
-                {% for unit in units %} 
-                <option value="{{unit.id}}">{{unit.name}}</option>
-                {% endfor %} 
-            </select>
-        </div>   
-        
-        <!-- Lisää-nappi raaka-aineelle -->
-        <div class="form-group">
-            <button class="btn btn-primary" name="add" type="button">Lisää</button>
-        </div>
+    <!-- Hakukenttä raaka-aineelle -->
+    <div class="form-group">
+        <label>Valitse raaka-aine</label>
+        <select class="form-control" name="ingredient">
+            {% for ingredient in ingredients %} 
+            <option value="{{ingredient.id}}">{{ingredient.name}}</option>
+            {% endfor %} 
+        </select>
+    </div>
 
-        <!-- Tekstikenttä valmistusohjeelle -->
-    	<div class="form-group">
-		<label class="control-label " for="instructions">Valmistusohje</label>
-		<textarea class="form-control" 
-                          name="instructions" rows="5" placeholder="{{attributes.instructions}}"></textarea>
-        </div>
+    <!-- Raaka-aineen määrä -->
+    <div class="form-group">
+        <label>Määrä</label>
+        <input type="number" class="form-control">
+    </div>
 
-        <!-- Luokka-tagien hakukenttä -->
-        <div class="form-group">
-            <label>Valitse luokka</label>
-            <select class="form-control" name="tags">
-                {% for tag in tags %} 
-                <option value="{{tag.id}}">{{tag.name}}</option>
-                {% endfor %} 
-            </select>
-        </div>
-        
-        <!-- Lisää luokka-tagi -->
-        <div class="form-group">
-            <button class="btn btn-primary" name="add" type="button">Lisää</button>
-        </div>
+    <!-- Raaka-aineen yksikkö -->
+    <div class="form-group">
+        <label>Valitse raaka-aineen yksikkö</label>
+        <select class="form-control" name="unit">
+            {% for unit in units %} 
+            <option value="{{unit.id}}">{{unit.name}}</option>
+            {% endfor %} 
+        </select>
+    </div>   
 
-        <!-- Tallenna muutokset -nappi -->
-        <div class="form-group">
-            <button class="btn btn-primary" name="add" type="submit">Tallenna muutokset</button>
-        </div>        
-    </form>
-        
+    <!-- Lisää-nappi raaka-aineelle -->
+    <div class="form-group">
+        <button class="btn btn-primary" name="add" type="button">Lisää</button>
+    </div>
+
+    <!-- Tekstikenttä valmistusohjeelle -->
+    <div class="form-group">
+        <label class="control-label " for="instructions">Valmistusohje</label>
+        <textarea class="form-control" 
+                  name="instructions" rows="5">{{attributes.instructions}}</textarea>
+    </div>
+
+
+    <!-- taulu reseptin tageille -->
+    <div class="container">
+        <table class="table">
+            <caption>Luokat</caption>
+
+            <tbody>
+                {% for tagOfARecipe in tagsOfARecipe %}
+                <tr>
+                    <td>{{tagOfARecipe.tag_name}}</td>
+                    <th><a class="btn btn-danger" href="{{base_path}}/recipe/{{recipe.id}}/{{tagOfARecipe.id}}/destroy">Poista</a></th>
+                </tr>         
+                {% endfor %}
+            </tbody>
+        </table> 
+    </div>  
+
+    <!-- Luokka-tagien hakukenttä -->
+    <div class="form-group">
+        <label>Valitse luokka (voit valita useamman pitämällä ctrl-painiketta pohjassa)</label>
+        <select class="form-control" name="tags">
+            {% for tag in tags %} 
+            <option value="{{tag.id}}">{{tag.name}}</option>
+            {% endfor %} 
+        </select>
+    </div>
+
+    <!-- Tallenna muutokset -nappi -->
+    <div class="form-group">
+        <button class="btn btn-primary" name="add" type="submit">Tallenna muutokset</button>
+    </div>        
+</form>
+
 {% endblock %}

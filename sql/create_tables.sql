@@ -25,6 +25,7 @@ CREATE TABLE Unit (
 );
 
 CREATE TABLE IngredientOfARecipe (
+    id SERIAL PRIMARY KEY,
     recipe_id INTEGER REFERENCES Recipe(id),
     ingredient_id INTEGER REFERENCES Ingredient(id),
     unit_id INTEGER REFERENCES Unit(id),
@@ -38,6 +39,7 @@ CREATE TABLE Tag (
 );
 
 CREATE TABLE TagOfARecipe (
+    id SERIAL PRIMARY KEY,
     recipe_id INTEGER REFERENCES Recipe(id),
     tag_id INTEGER REFERENCES Tag(id)
 );

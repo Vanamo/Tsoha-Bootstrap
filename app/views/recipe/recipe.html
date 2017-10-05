@@ -11,11 +11,11 @@
         <caption>Raaka-aineet</caption>
 
         <tbody>
-            {% for ingredient in ingredients %}
+            {% for ingredientOfARecipe in ingredientsOfARecipe %}
             <tr>
-                <td>{{ingredient.amount}}</td>
-                <td>{{ingredient.unitName}}</td>
-                <td>{{ingredient.ingredientName}}</td>
+                <td>{{ingredientOfARecipe.amount}}</td>
+                <td>{{ingredientOfARecipe.unit_name}}</td>
+                <td>{{ingredientOfARecipe.ingredient_name}}</td>
             </tr>     
             {% endfor %}
         </tbody>
@@ -39,7 +39,7 @@
 
         <tbody>
             {% for tagOfARecipe in tagsOfARecipe %}
-            <tr><td>{{tagOfARecipe.tag_id}}</td></tr>         
+            <tr><td>{{tagOfARecipe.tag_name}}</td></tr>         
             {% endfor %}
         </tbody>
     </table> 
@@ -50,15 +50,24 @@
     <button class="btn btn-primary" name="addChart" type="button">Lisää ostoslistaan</button>
 </div>
 
+{% if user_logged_in %}
 <!-- Lisää suosikiksi -nappi -->
-<div class="form-group">
-    <button class="btn btn-primary" name="addFavorite" type="button">Lisää suosikiksi</button>
-</div>
+    <form method="post" action="{{base_path}}/recipe/{{recipe.id}}/addFavorite">
+        <button type="submit" class="btn btn-primary">Lisää suosikiksi</button>
+    </form>
 
+<!-- Poista suosikeista -nappi -->
+    <form method="post" action="{{base_path}}/recipe/{{recipe.id}}/removeFavorite">
+        <button type="submit" class="btn btn-danger">Poista suosikeista</button>
+    </form>
+{% endif %}
+
+{% if user_logged_in.id == recipe.customer_id %}
 <!-- Muokkaa reseptiä -nappi -->
-<a class="btn btn-primary" href="{{base_path}}/recipe/{{recipe.id}}/edit">Muokkaa reseptiä</a>
+    <a class="btn btn-primary" href="{{base_path}}/recipe/{{recipe.id}}/edit">Muokkaa reseptiä</a>
 
-<!-- Poista resepti -nappi -->
-{{forms.destroy_button("#{base_path}/recipe/#{recipe.id}/destroy")}}
-
+   <!-- Poista resepti -nappi -->
+    {{forms.destroy_button("#{base_path}/recipe/#{recipe.id}/destroy")}}
+{% endif %}
+    
 {% endblock %}  

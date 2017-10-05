@@ -5,11 +5,11 @@ class RecipeController extends BaseController {
     public static function show($id) {
         //Haetaan tietty resepti tietokannasta
         $recipe = Recipe::find($id);
-        $ingredients = Recipe::findIngredientsOfARecipe($id);
-        $tagsOfARecipe = Recipe::findTagsOfARecipe($id);
+        $ingredientsOfARecipe = IngredientOfARecipe::findIngredientsOfARecipe($id);
+        $tagsOfARecipe = TagOfARecipe::findTagsOfARecipe($id);
 
         View::make('recipe/recipe.html', array('recipe' => $recipe,
-            'ingredients' => $ingredients,
+            'ingredientsOfARecipe' => $ingredientsOfARecipe,
             'tagsOfARecipe' => $tagsOfARecipe));
     }
 
@@ -26,11 +26,17 @@ class RecipeController extends BaseController {
         self::check_logged_in();
         $params = $_POST;
         $user = self::get_user_logged_in();
+        $tags = $params['tags'];
         $attributes = array(
-            'name' => $params['name'],
             'customer_id' => $user->id,
-            'instructions' => $params['instructions']
+            'name' => $params['name'],
+            'instructions' => $params['instructions'],
+            'tags' => array()
         );
+
+        foreach ($tags as $tag) {
+            $attributes['tags'][] = $tag;
+        }
 
         $recipe = new Recipe($attributes);
         $errors = $recipe->errors();
@@ -51,11 +57,15 @@ class RecipeController extends BaseController {
         //lomakkeen esittäminen
         self::check_logged_in();
         $recipe = Recipe::find($id);
-        $ingredientsOfARecipe = Recipe::findIngredientsOfARecipe($id);
-        $tagsOfARecipe = Recipe::findTagsOfARecipe($id);
+        $ingredientsOfARecipe = IngredientOfARecipe::findIngredientsOfARecipe($id);
+        $tagsOfARecipe = TagOfARecipe::findTagsOfARecipe($id);
+        $ingredients = Ingredient::all();
+        $tags = Tag::all();
+        $units = Unit::all();
         View::make('recipe/edit.html', array('attributes' => $recipe,
             'ingredientsOfARecipe' => $ingredientsOfARecipe,
-            'tagsOfARecipe' => $tagsOfARecipe));
+            'tagsOfARecipe' => $tagsOfARecipe, 'ingredients' => $ingredients,
+            'tags' => $tags, 'units' => $units));
     }
 
     public static function update($id) {

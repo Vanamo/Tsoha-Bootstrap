@@ -21,6 +21,11 @@ INSERT INTO Unit (name) VALUES ('pss');
 --Test data for the Tag table
 INSERT INTO Tag (name) VALUES ('kasvisruoka');
 INSERT INTO Tag (name) VALUES ('helppo');
+INSERT INTO Tag (name) VALUES ('vaikea');
+INSERT INTO Tag (name) VALUES ('jälkiruoka');
+INSERT INTO Tag (name) VALUES ('pääruoka');
+INSERT INTO Tag (name) VALUES ('salaatti');
+
 
 --Test data for the Recipe table
 INSERT INTO Recipe (customer_id, name, instructions)

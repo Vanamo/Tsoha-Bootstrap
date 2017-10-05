@@ -42,4 +42,21 @@ class User extends BaseModel{
         }
         return $user;
     }
+               
+    public static function findUserRecipes($customer_id) {
+        $query = DB::connection()->prepare('SELECT * FROM Recipe WHERE customer_id = :customer_id');
+        $query->execute(array('customer_id' => $customer_id));
+        $rows = $query->fetchAll();
+        $userRecipes = array();
+        
+        foreach($rows as $row) {
+            $userRecipes[] = new Recipe(array(
+                'id' => $row['id'],
+                'customer_id' => $row['customer_id'],
+                'name' => $row['name'],
+                'instructions' => $row['instructions']                
+            ));
+        }
+        return $userRecipes;
+    }
 }    

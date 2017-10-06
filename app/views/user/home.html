@@ -2,37 +2,22 @@
 {% block content %}
 
 
-    <h1>Keittokirja</h1>
+<h1>Keittokirja</h1>
 
-    <form class="form-inline">
-        
-        <!-- reseptien hakukenttä -->
-        <div class="form-group">
-            <input type="text" value="Hae reseptejä">
-        </div>
-        <div class="form-group">
-            <button class="btn btn-primary" name="search" type="button">Hae</button>
-        </div>
-        
-    </form>
-    
-    <form>
 
-        <!-- taulu 5:lle suosituimmalle resepteille -->
-        <div class="form-group">
-        <table class="table">
-                <caption>Suosituimmat reseptit</caption>
-                <tbody>
-                    {% for recipe in recipes %}
-                    <tr>
-                        <td><a href="{{base_path}}/recipe/{{recipe.id}}">{{recipe.name}}</a></td>
-                    </tr>   
-                    {% endfor %}
-                </tbody>
-            </table> 
-        </div>
-            
-    </form>
+<!-- Listataan kaikki reseptit -->
+<div class="form-group">
+    <table class="table">
+        <caption>Reseptit</caption>
+        <tbody>
+            {% for recipe in recipes %}
+            <tr>
+                <td><a href="{{base_path}}/recipe/{{recipe.id}}">{{recipe.name}}</a></td>
+            </tr>   
+            {% endfor %}
+        </tbody>
+    </table> 
+</div>
 
-        
+
 {% endblock %}        

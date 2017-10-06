@@ -3,11 +3,7 @@
 Yleisiä linkkejä:
 
 * [Etusivu](http://vseppane.users.cs.helsinki.fi/keittokirja/)
-* [Kirjautuneen käyttäjän etusivu](http://vseppane.users.cs.helsinki.fi/keittokirja/loginHome)
-* [Ostoslista](http://vseppane.users.cs.helsinki.fi/keittokirja/shoppingList)
-* [Reseptien haku](http://vseppane.users.cs.helsinki.fi/keittokirja/search)
 * [Kirjautuminen](http://vseppane.users.cs.helsinki.fi/keittokirja/login)
-* [Reseptin lisäys](http://vseppane.users.cs.helsinki.fi/keittokirja/addRecipe)
 * [Rekisteröityminen](http://vseppane.users.cs.helsinki.fi/keittokirja/signUp)
 
 * [Linkki dokumentaatiooni](https://github.com/Vanamo/Tsoha-Bootstrap/blob/master/doc/dokumentaatio.pdf)

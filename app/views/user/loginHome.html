@@ -2,45 +2,32 @@
 {% block content %}
 
 
-    <h1>{{user.name}}n Keittokirja</h1>
+<h1>{{user.name}}n Keittokirja</h1>
 
-    <form class="form-inline">
-        
-        <!-- reseptien hakukenttä -->
-        <div class="form-group">
-            <input type="text" value="Hae reseptejä">
-        </div>
-        <div class="form-group">
-            <button class="btn btn-primary" name="search" type="button">Hae</button>
-        </div>
-        
-    </form>
-    
-    <form>
 
-        <!-- taulu käyttäjän suosikkiresepteille -->
-        <div class="form-group">
-        <table class="table">
-                <caption>Omat suosikit</caption>
-                <tbody>
-                    {% for favoriteRecipe in favoriteRecipes %}
-                    <tr><td><a href="{{base_path}}/recipe/{{favoriteRecipe.recipe_id}}">{{favoriteRecipe.name}}</a></td></tr>
-                    {% endfor %}
-                </tbody>
-            </table> 
-        </div>
+<!-- taulu käyttäjän suosikkiresepteille -->
+<div class="form-group">
+    <table class="table">
+        <caption>Omat suosikit</caption>
+        <tbody>
+            {% for favoriteRecipe in favoriteRecipes %}
+            <tr><td><a href="{{base_path}}/recipe/{{favoriteRecipe.recipe_id}}">{{favoriteRecipe.name}}</a></td></tr>
+            {% endfor %}
+        </tbody>
+    </table> 
+</div>
 
-        <!-- taulu käyttäjän itse lisäämille resepteille -->
-        <div class="form-group">
-        <table class="table">
-                <caption>Omat reseptit</caption>
-                <tbody>
-                    {% for userRecipe in userRecipes %}
-                    <tr><td><a href="{{base_path}}/recipe/{{userRecipe.id}}">{{userRecipe.name}}</a></td></tr>
-                    {% endfor %}          
-                </tbody>
-            </table> 
-        </div> 
-        
+<!-- taulu käyttäjän itse lisäämille resepteille -->
+<div class="form-group">
+    <table class="table">
+        <caption>Omat reseptit</caption>
+        <tbody>
+            {% for userRecipe in userRecipes %}
+            <tr><td><a href="{{base_path}}/recipe/{{userRecipe.id}}">{{userRecipe.name}}</a></td></tr>
+            {% endfor %}          
+        </tbody>
+    </table> 
+</div> 
+
 {% endblock %}        
 

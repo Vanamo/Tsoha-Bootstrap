@@ -3,7 +3,7 @@
 class RecipeController extends BaseController {
 
     public static function show($id) {
-        //Haetaan tietty resepti tietokannasta
+//Haetaan tietty resepti tietokannasta
         $recipe = Recipe::find($id);
         $ingredientsOfARecipe = IngredientOfARecipe::findIngredientsOfARecipe($id);
         $tagsOfARecipe = TagOfARecipe::findTagsOfARecipe($id);
@@ -26,7 +26,13 @@ class RecipeController extends BaseController {
         self::check_logged_in();
         $params = $_POST;
         $user = self::get_user_logged_in();
-        $tags = $params['tags'];
+        $tags = array();
+        if (isset($params['tags'])) {
+            $tags = $params['tags'];
+        }
+        $ingredients = $params['ingredients'];
+        $amounts = $params['amounts'];
+        $units = $params['units'];
         $attributes = array(
             'customer_id' => $user->id,
             'name' => $params['name'],
@@ -37,24 +43,32 @@ class RecipeController extends BaseController {
         foreach ($tags as $tag) {
             $attributes['tags'][] = $tag;
         }
+        for ($i = 0; $i < count($ingredients); $i++) {
+            if ($ingredients[$i] == -1) {
+                continue;
+            }
+            $attributes['ingredients'][] = $ingredients[$i];
+            $attributes['amounts'][] = $amounts[$i];
+            $attributes['units'][] = $units[$i];
+        }
 
         $recipe = new Recipe($attributes);
-        $errors = $recipe->errors();
-
-        if (count($errors) == 0) {
-            $recipe->save();
-            Redirect::to('/recipe/' . $recipe->id, array('message' => 'Resepti on lisätty Keittokirjaan'));
-        } else {
-            $ingredients = Ingredient::all();
-            $tags = Tag::all();
-            $units = Unit::all();
-            View::make('/recipe/addRecipe.html', array('errors' => $errors, 'attributes' => $attributes,
-                'ingredients' => $ingredients, 'tags' => $tags, 'units' => $units));
-        }
+//        $errors = $recipe->errors();
+//
+//        if (count($errors) == 0) {
+        $recipe->save();
+        Redirect::to('/recipe/' . $recipe->id, array('message' => 'Resepti on lisätty Keittokirjaan'));
+//        } else {
+//            $ingredients = Ingredient::all();
+//            $tags = Tag::all();
+//            $units = Unit::all();
+//            View::make('/recipe/addRecipe.html', array('errors' => $errors, 'attributes' => $attributes,
+//                'ingredients' => $ingredients, 'tags' => $tags, 'units' => $units));
+//        }
     }
 
     public static function edit($id) {
-        //lomakkeen esittäminen
+//lomakkeen esittäminen
         self::check_logged_in();
         $recipe = Recipe::find($id);
         $ingredientsOfARecipe = IngredientOfARecipe::findIngredientsOfARecipe($id);
@@ -69,30 +83,47 @@ class RecipeController extends BaseController {
     }
 
     public static function update($id) {
-        //lomakkeen käsittely
-        self::check_logged_in();
+//lomakkeen käsittely
         $params = $_POST;
-
+        $tags = array();
+        if (isset($params['tags'])) {
+            $tags = $params['tags'];
+        }
+        $ingredients = $params['ingredients'];
+        $amounts = $params['amounts'];
+        $units = $params['units'];
         $attributes = array(
             'id' => $id,
             'name' => $params['name'],
-            'instructions' => $params['instructions']
+            'instructions' => $params['instructions'],
+            'tags' => array()
         );
 
-        $recipe = new Recipe($attributes);
-        $errors = $recipe->errors();
-
-        if (count($errors) > 0) {
-            $ingredients = Ingredient::all();
-            $tags = Tag::all();
-            $units = Unit::all();
-            View::make('recipe/edit.html', array('errors' => $errors, 'attributes' => $attributes,
-                'ingredients' => $ingredients, 'tags' => $tags, 'units' => $units));
-        } else {
-            $recipe->update();
-
-            Redirect::to('/recipe/' . $recipe->id, array('message' => 'Reseptiä on muokattu onnistuneesti'));
+        foreach ($tags as $tag) {
+            $attributes['tags'][] = $tag;
         }
+        for ($i = 0; $i < count($ingredients); $i++) {
+            if ($ingredients[$i] == -1) {
+                continue;
+            }
+            $attributes['ingredients'][] = $ingredients[$i];
+            $attributes['amounts'][] = $amounts[$i];
+            $attributes['units'][] = $units[$i];
+        }
+
+        $recipe = new Recipe($attributes);
+        //VALIDOINNEISTA EI VOI KÄYTTÄÄ MUUTA KUIN NIMEN PITUUDEN VALIDOINTIA
+//        $errors = $recipe->errors();
+//        if (count($errors) > 0) {
+//            $ingredients = Ingredient::all();
+//            $tags = Tag::all();
+//            $units = Unit::all();
+//            View::make('recipe/edit.html', array('errors' => $errors, 'attributes' => $attributes,
+//                'ingredients' => $ingredients, 'tags' => $tags, 'units' => $units));
+//        } else {
+        $recipe->update();
+
+        Redirect::to('/recipe/' . $recipe->id, array('message' => 'Reseptiä on muokattu onnistuneesti'));
     }
 
     public static function destroy($id) {
@@ -101,6 +132,13 @@ class RecipeController extends BaseController {
         $recipe->destroy();
 
         Redirect::to('/', array('message' => 'Resepti on poistettu onnistuneesti'));
+    }
+
+    public static function destroyIngredient($id_r, $id_i) {
+        $ingredientOfARecipe = new IngredientOfARecipe(array('id' => $id_i));
+        $ingredientOfARecipe->destroy();
+
+        $this->edit($id_r);
     }
 
 }

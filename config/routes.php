@@ -32,6 +32,10 @@
   RecipeController::destroy($id);
   });
   
+  $routes->post('/recipe/:id_r/:id_i/destroyIngredient', function($id_r, $id_i) {
+  RecipeController::destroyIngredient($id_r, $id_i);
+  });
+  
   $routes->post('/recipe/:id/addFavorite', function($id) {
   UserController::storeFavorite($id);
   });
@@ -41,7 +45,11 @@
   });
   
   $routes->get('/signUp', function() {
-    HelloWorldController::signUp();
+    UserController::signUp();
+  });
+    
+  $routes->post('/signUp', function() {
+    UserController::handle_signUp();
   });
     
   $routes->get('/login', function() {
@@ -59,7 +67,15 @@
   $routes->get('/user/:id/loginHome', function($id) {
     UserController::showLoginHome($id);
   });
-      
+  
+  $routes->get('/user/:id/changePassword', function($id) {
+    UserController::changePassword($id);
+  });
+    
+  $routes->post('/user/:id/changePassword', function($id) {
+    UserController::updatePassword($id);
+  });
+  
   $routes->get('/shoppingList', function() {
     HelloWorldController::shoppingList();
   }); 

@@ -2,11 +2,13 @@
 
 class Recipe extends BaseModel {
 
-    public $id, $customer_id, $name, $instructions, $tags;
+    public $id, $customer_id, $name, $instructions, $tags, $ingredients, $amounts, $units;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
-        $this->validators = array('validate_name');
+        $this->validators = array('validate_name_length',
+            'validate_individual_name',
+            'validate_ingredient_amount');
     }
 
     public static function all() {
@@ -54,10 +56,41 @@ class Recipe extends BaseModel {
             $query = DB::connection()->prepare('INSERT INTO Tagofarecipe (recipe_id, tag_id) VALUES (:id, :tag)');
             $query->execute(array('id' => $this->id, 'tag' => $tag));
         }
+
+        $ingredients = $this->ingredients;
+        $amounts = $this->amounts;
+        $units = $this->units;
+        for ($i = 0; $i < count($units); $i++) {
+            $query2 = DB::connection()->prepare('INSERT INTO Ingredientofarecipe (recipe_id, ingredient_id, unit_id, amount) VALUES (:id, :ingredient, :unit, :amount)');
+            $query2->execute(array(
+                'id' => $this->id,
+                'ingredient' => $ingredients[$i],
+                'unit' => $units[$i],
+                'amount' => $amounts[$i]
+            ));
+        }
     }
 
-    public function validate_name() {
+    public function validate_name_length() {
         return $this->validate_string_length($this->name, 3, 'Reseptin nimi');
+    }
+        
+    public function validate_individual_name() {
+        $errors = array();
+        $name = $this->name;
+
+        $query = DB::connection()->prepare('SELECT name FROM Recipe WHERE name = :name LIMIT 1');
+        $query->execute(array('name' => $name));
+        $row = $query->fetch();
+        
+        if ($row) { 
+            $errors[] = 'Nimi on jo käytössä';
+        }
+        return $errors;
+    }
+            
+    public function validate_ingredient_amount() {
+        return $this->validate_amount($this->ingredients, 1, 'Raaka-aineita');
     }
 
     public function update() {
@@ -67,6 +100,25 @@ class Recipe extends BaseModel {
             'id' => $this->id,
             'name' => $this->name,
             'instructions' => $this->instructions));
+
+        $tags = $this->tags;
+        foreach ($tags as $tag) {
+            $query = DB::connection()->prepare('INSERT INTO Tagofarecipe (recipe_id, tag_id) VALUES (:id, :tag)');
+            $query->execute(array('id' => $this->id, 'tag' => $tag));
+        }        
+        
+        $ingredients = $this->ingredients;
+        $amounts = $this->amounts;
+        $units = $this->units;
+        for ($i = 0; $i < count($units); $i++) {
+            $query2 = DB::connection()->prepare('INSERT INTO Ingredientofarecipe (recipe_id, ingredient_id, unit_id, amount) VALUES (:id, :ingredient, :unit, :amount)');
+            $query2->execute(array(
+                'id' => $this->id,
+                'ingredient' => $ingredients[$i],
+                'unit' => $units[$i],
+                'amount' => $amounts[$i]
+            ));
+        }
     }
 
     public function destroy() {
@@ -78,11 +130,11 @@ class Recipe extends BaseModel {
         //Delete from TagOfARecipe
         $query2 = DB::connection()->prepare('DELETE FROM Tagofarecipe WHERE recipe_id = :id');
         $query2->execute(array('id' => $id));
-        
+
         //Delete from FavoriteRecipe
         $query3 = DB::connection()->prepare('DELETE FROM Favoriterecipe WHERE recipe_id = :id');
         $query3->execute(array('id' => $id));
-                                        
+
         //Delete from Recipe
         $query4 = DB::connection()->prepare('DELETE FROM Recipe WHERE id = :id');
         $query4->execute(array('id' => $id));

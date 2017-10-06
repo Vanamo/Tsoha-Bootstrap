@@ -45,29 +45,28 @@
     </table> 
 </div>  
 
-<!-- Lisää ostoslistaan -nappi -->
-<div class="form-group">
-    <button class="btn btn-primary" name="addChart" type="button">Lisää ostoslistaan</button>
-</div>
-
 {% if user_logged_in %}
-<!-- Lisää suosikiksi -nappi -->
-    <form method="post" action="{{base_path}}/recipe/{{recipe.id}}/addFavorite">
+<div class="form-group">
+    <!-- Lisää suosikiksi -nappi -->
+    <form method="post" action="{{base_path}}/recipe/{{recipe.id}}/addFavorite" style="display: inline-block;">
         <button type="submit" class="btn btn-primary">Lisää suosikiksi</button>
-    </form>
+    </form>    
 
-<!-- Poista suosikeista -nappi -->
-    <form method="post" action="{{base_path}}/recipe/{{recipe.id}}/removeFavorite">
+    <!-- Poista suosikeista -nappi -->
+    <form method="post" action="{{base_path}}/recipe/{{recipe.id}}/removeFavorite" style="display: inline-block;">
         <button type="submit" class="btn btn-danger">Poista suosikeista</button>
-    </form>
+    </form>    
+</div>
 {% endif %}
 
 {% if user_logged_in.id == recipe.customer_id %}
-<!-- Muokkaa reseptiä -nappi -->
+<div class="form-group">
+    <!-- Muokkaa reseptiä -nappi -->
     <a class="btn btn-primary" href="{{base_path}}/recipe/{{recipe.id}}/edit">Muokkaa reseptiä</a>
 
-   <!-- Poista resepti -nappi -->
+    <!-- Poista resepti -nappi -->
     {{forms.destroy_button("#{base_path}/recipe/#{recipe.id}/destroy")}}
+</div>
 {% endif %}
-    
+
 {% endblock %}  

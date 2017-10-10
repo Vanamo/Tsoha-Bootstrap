@@ -78,11 +78,13 @@ class Recipe extends BaseModel {
     public function validate_individual_name() {
         $errors = array();
         $name = $this->name;
+        $id = $this->id;
+        if (is_null($id)) {$id = -1;}
 
-        $query = DB::connection()->prepare('SELECT name FROM Recipe WHERE name = :name LIMIT 1');
-        $query->execute(array('name' => $name));
+        $query = DB::connection()->prepare('SELECT name FROM Recipe WHERE name = :name AND id != :id LIMIT 1');
+        $query->execute(array('name' => $name, 'id' => $id));
         $row = $query->fetch();
-        
+
         if ($row) { 
             $errors[] = 'Nimi on jo käytössä';
         }
@@ -90,7 +92,12 @@ class Recipe extends BaseModel {
     }
             
     public function validate_ingredient_amount() {
-        return $this->validate_amount($this->ingredients, 1, 'Raaka-aineita');
+        //Tarkistetaan raaka-aineiden määrä vain uusista resepteistä 
+        if (is_null($this->id)) {
+            return $this->validate_amount($this->ingredients, 1, 'Raaka-aineita');
+        } else {
+            return $errors = array();
+        }
     }
 
     public function update() {

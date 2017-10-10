@@ -4,7 +4,6 @@ class UserController extends BaseController {
 
     public static function index() {
 //Haetaan kaikki reseptit tietokannasta
-//Tässä pitäisi hakea vain kymmenen suosituinta reseptiä
         $recipes = Recipe::all();
         View::make('user/home.html', array('recipes' => $recipes));
     }

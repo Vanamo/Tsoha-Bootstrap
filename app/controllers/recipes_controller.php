@@ -68,18 +68,18 @@ class RecipeController extends BaseController {
         }
 
         $recipe = new Recipe($attributes);
-//        $errors = $recipe->errors();
-//
-//        if (count($errors) == 0) {
-        $recipe->save();
-        Redirect::to('/recipe/' . $recipe->id, array('message' => 'Resepti on lisätty Keittokirjaan'));
-//        } else {
-//            $ingredients = Ingredient::all();
-//            $tags = Tag::all();
-//            $units = Unit::all();
-//            View::make('/recipe/addRecipe.html', array('errors' => $errors, 'attributes' => $attributes,
-//                'ingredients' => $ingredients, 'tags' => $tags, 'units' => $units));
-//        }
+        $errors = $recipe->errors();
+        
+        if (count($errors) == 0) {
+            $recipe->save();
+            Redirect::to('/recipe/' . $recipe->id, array('message' => 'Resepti on lisätty Keittokirjaan'));
+        } else {
+            $ingredients = Ingredient::all();
+            $tags = Tag::all();
+            $units = Unit::all();
+            View::make('/recipe/addRecipe.html', array('errors' => $errors, 'attributes' => $attributes,
+                'ingredients' => $ingredients, 'tags' => $tags, 'units' => $units));
+        }
     }
 
     public static function edit($id) {
@@ -128,18 +128,18 @@ class RecipeController extends BaseController {
         }
 
         $recipe = new Recipe($attributes);
-        //VALIDOINNEISTA EI VOI KÄYTTÄÄ MUUTA KUIN NIMEN PITUUDEN VALIDOINTIA
-//        $errors = $recipe->errors();
-//        if (count($errors) > 0) {
-//            $ingredients = Ingredient::all();
-//            $tags = Tag::all();
-//            $units = Unit::all();
-//            View::make('recipe/edit.html', array('errors' => $errors, 'attributes' => $attributes,
-//                'ingredients' => $ingredients, 'tags' => $tags, 'units' => $units));
-//        } else {
+        $errors = $recipe->errors();
+        if (count($errors) > 0) {
+            $ingredients = Ingredient::all();
+            $tags = Tag::all();
+            $units = Unit::all();
+            View::make('recipe/edit.html', array('errors' => $errors, 'attributes' => $attributes,
+                'ingredients' => $ingredients, 'tags' => $tags, 'units' => $units));
+        } else {
         $recipe->update();
 
         Redirect::to('/recipe/' . $recipe->id, array('message' => 'Reseptiä on muokattu onnistuneesti'));
+        }
     }
 
     public static function destroy($id) {

@@ -18,6 +18,8 @@
       // Jos käyttäjä ei ole kirjautunut sisään, ohjaa hänet toiselle sivulle (esim. kirjautumissivulle).
         if(!isset($_SESSION['user'])) {
             Redirect::to('/login', array('message' => 'Kirjaudu ensin sisään'));
+        } else {
+            return true;
         }
     }
 

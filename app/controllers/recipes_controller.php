@@ -3,14 +3,29 @@
 class RecipeController extends BaseController {
 
     public static function show($id) {
-//Haetaan tietty resepti tietokannasta
+        //Haetaan tietty resepti tietokannasta
         $recipe = Recipe::find($id);
         $ingredientsOfARecipe = IngredientOfARecipe::findIngredientsOfARecipe($id);
         $tagsOfARecipe = TagOfARecipe::findTagsOfARecipe($id);
+        $isFavorite;
+        
+        //Jos käyttäjä on kirjautunut, tarkistetaan onko resepti suosikeissa
+        if (self::check_logged_in()) {
+            $user = self::get_user_logged_in();
+                $attributes = array(
+                    'recipe_id' => $recipe->id,
+                    'customer_id' => $user->id
+                );
+
+            $favoriteRecipe = new FavoriteRecipe($attributes);
+            $isFavorite = $favoriteRecipe->check_if_favorite();            
+        } else {
+            $isFavorite = false;
+        }
 
         View::make('recipe/recipe.html', array('recipe' => $recipe,
             'ingredientsOfARecipe' => $ingredientsOfARecipe,
-            'tagsOfARecipe' => $tagsOfARecipe));
+            'tagsOfARecipe' => $tagsOfARecipe, 'isFavorite' => $isFavorite));
     }
 
     public static function create() {
@@ -68,7 +83,7 @@ class RecipeController extends BaseController {
     }
 
     public static function edit($id) {
-//lomakkeen esittäminen
+        //lomakkeen esittäminen
         self::check_logged_in();
         $recipe = Recipe::find($id);
         $ingredientsOfARecipe = IngredientOfARecipe::findIngredientsOfARecipe($id);
@@ -83,7 +98,8 @@ class RecipeController extends BaseController {
     }
 
     public static function update($id) {
-//lomakkeen käsittely
+        //lomakkeen käsittely
+        self::check_logged_in();
         $params = $_POST;
         $tags = array();
         if (isset($params['tags'])) {

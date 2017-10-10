@@ -9,8 +9,10 @@ class FavoriteRecipe extends BaseModel {
     }
 
     public function saveFavorite() {
+        $recipe_id = $this->recipe_id; 
+        $customer_id = $this->customer_id;
         $query = DB::connection()->prepare('INSERT INTO Favoriterecipe (recipe_id, customer_id) VALUES (:recipe_id, :customer_id)');
-        $query->execute(array('recipe_id' => $this->recipe_id, 'customer_id' => $this->customer_id));
+        $query->execute(array('recipe_id' => $recipe_id, 'customer_id' => $customer_id));
     }
 
     public static function find($customer_id) {
@@ -27,6 +29,19 @@ class FavoriteRecipe extends BaseModel {
             ));
         }
         return $favoriteRecipes;
+    }
+    
+    public function check_if_favorite() {
+        $recipe_id = $this->recipe_id;
+        $customer_id = $this->customer_id;
+        $query = DB::connection()->prepare('SELECT recipe_id FROM Favoriterecipe WHERE recipe_id = :recipe_id AND customer_id = :customer_id LIMIT 1');
+        $query->execute(array('recipe_id' => $recipe_id, 'customer_id' => $customer_id));
+        $row = $query->fetch();
+        if ($row) {
+           return true; 
+        } else {
+           return false;
+        };
     }
 
     public function destroy() {

@@ -45,19 +45,19 @@
     </table> 
 </div>  
 
-{% if user_logged_in %}
 <div class="form-group">
+{% if user_logged_in and isFavorite %}
+    <!-- Poista suosikeista -nappi -->
+    <form method="post" action="{{base_path}}/recipe/{{recipe.id}}/removeFavorite">
+        <button type="submit" class="btn btn-primary">Poista suosikeista</button>
+    </form>     
+{% elseif user_logged_in and not isFavorite %}   
     <!-- Lisää suosikiksi -nappi -->
-    <form method="post" action="{{base_path}}/recipe/{{recipe.id}}/addFavorite" style="display: inline-block;">
+    <form method="post" action="{{base_path}}/recipe/{{recipe.id}}/addFavorite">
         <button type="submit" class="btn btn-primary">Lisää suosikiksi</button>
     </form>    
-
-    <!-- Poista suosikeista -nappi -->
-    <form method="post" action="{{base_path}}/recipe/{{recipe.id}}/removeFavorite" style="display: inline-block;">
-        <button type="submit" class="btn btn-danger">Poista suosikeista</button>
-    </form>    
-</div>
 {% endif %}
+</div>
 
 {% if user_logged_in.id == recipe.customer_id %}
 <div class="form-group">

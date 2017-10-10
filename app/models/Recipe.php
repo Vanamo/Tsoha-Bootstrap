@@ -76,19 +76,8 @@ class Recipe extends BaseModel {
     }
         
     public function validate_individual_name() {
-        $errors = array();
-        $name = $this->name;
-        $id = $this->id;
-        if (is_null($id)) {$id = -1;}
-
-        $query = DB::connection()->prepare('SELECT name FROM Recipe WHERE name = :name AND id != :id LIMIT 1');
-        $query->execute(array('name' => $name, 'id' => $id));
-        $row = $query->fetch();
-
-        if ($row) { 
-            $errors[] = 'Nimi on jo käytössä';
-        }
-        return $errors;
+        $table = 'Recipe';
+        return $this->validate_individual($this->name, $this->id, $table);
     }
             
     public function validate_ingredient_amount() {

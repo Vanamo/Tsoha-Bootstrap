@@ -84,19 +84,9 @@ class User extends BaseModel {
     public function validate_username_length() {
         return $this->validate_string_length($this->name, 3, 'Käyttäjätunnus');
     }
-
+        
     public function validate_individual_username() {
-        $errors = array();
-        $name = $this->name;
-
-        $query = DB::connection()->prepare('SELECT name FROM Customer WHERE name = :name LIMIT 1');
-        $query->execute(array('name' => $name));
-        $row = $query->fetch();
-
-        if ($row) {
-            $errors[] = 'Nimi on jo käytössä';
-        }
-        return $errors;
+        $table = 'Customer';
+        return $this->validate_individual($this->name, $this->id, $table);
     }
-
 }

@@ -45,5 +45,19 @@ class BaseModel {
         }
         return $errors;
     }
+    
+    public function validate_individual($name, $id, $table) {
+        $errors = array();
+        //Jos alkio on uusi (ei vielä tietokannassa), annetaan sille väliaikainen id -1 
+        if (is_null($id)) {$id = -1;}
 
+        $query = DB::connection()->prepare('SELECT name FROM ' . $table . ' WHERE name = :name AND id != :id LIMIT 1');
+        $query->execute(array('name' => $name, 'id' => $id));
+        $row = $query->fetch();
+
+        if ($row) { 
+            $errors[] = 'Nimi on jo käytössä';
+        }
+        return $errors;
+    }
 }

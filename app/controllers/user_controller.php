@@ -110,12 +110,11 @@ class UserController extends BaseController {
         $user = new User($attributes);
 
         $user->update_password();
-        //EI VOI KÄYTTÄÄ SAMOJA VALIDOINTEJA KUIN UUDEN KÄYTTÄJÄN LUONNISSA
-        //$errors = $user->errors();
+        $errors = $user->errors();
         
-        //if (count($errors) > 0) {
-        //    View::make('/user/changePassword.html', array('errors' => $errors));
-        //}
+        if (count($errors) > 0) {
+            View::make('/user/changePassword.html', array('errors' => $errors));
+        }
 
         Redirect::to('/user/' . $user->id . '/loginHome', array('message' => 'Salasana on vaihdettu onnistuneesti'));
     }

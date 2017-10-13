@@ -29,7 +29,7 @@
                     <th>Raaka-aineet</th>
                     <th></th>
                     <th></th>
-                    <!-- <th>Merkitse poistettavat</th> -->
+                    <th>Merkitse poistettavat</th>
                 </tr>
             </thead>
 
@@ -39,7 +39,7 @@
                     <td>{{ingredientOfARecipe.amount}}</td>
                     <td>{{ingredientOfARecipe.unit_name}}</td>
                     <td>{{ingredientOfARecipe.ingredient_name}}</td>
-                    <!-- <td><input type="checkbox" name="delete_ingredients[]"></td> -->
+                    <td><input type="checkbox" name="delete_ingredients[]" value="{{ingredientOfARecipe.id}}"></td>
                 </tr>     
                 {% endfor %}
             </tbody>
@@ -85,14 +85,14 @@
             <thead>
                 <tr>
                     <th>Luokat</th>
-                    <!-- <th>Merkitse poistettavat</th> -->
+                    <th>Merkitse poistettavat</th>
                 </tr>
             </thead>
             <tbody>
                 {% for tagOfARecipe in tagsOfARecipe %}
                 <tr>
                     <td>{{tagOfARecipe.tag_name}}</td>
-                    <!-- <td><input type="checkbox" name="delete_tags[]"></td> -->
+                    <td><input type="checkbox" name="delete_tags[]" value="{{tagOfARecipe.id}}"></td>
                 </tr>         
                 {% endfor %}
             </tbody>

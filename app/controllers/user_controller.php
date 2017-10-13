@@ -19,13 +19,10 @@ class UserController extends BaseController {
     public static function handle_signUp() {
         $params = $_POST;
 
-        if ($params['password'] != $params['password_check']) {
-            View::make('/user/signUp.html', array('message' => 'Salasanat eivät täsmää!',
-                'username' => $params['username']));
-        }
         $attributes = array(
             'name' => $params['username'],
-            'password_hash' => $params['password']
+            'password_hash' => $params['password'],
+            'password_check' => $params['password_check']
         );
 
         $user = New User($attributes);
@@ -36,7 +33,7 @@ class UserController extends BaseController {
             $_SESSION['user'] = $user->id;
             Redirect::to('/user/' . $user->id . '/loginHome', array('message' => 'Tervetuloa ' . $user->name . '!'));
         } else {
-            View::make('/user/signUp.html', array('errors' => $errors));
+            View::make('user/signUp.html', array('errors' => $errors));
         }
     }
 
@@ -44,9 +41,11 @@ class UserController extends BaseController {
         $params = $_POST;
 
         $user = User::authenticate($params['username'], $params['password']);
+        $errors = array();
 
         if (!$user) {
-            View::make('/user/login.html', array('error' => 'Väärä käyttäjätunnus tai salasana!',
+            $errors[] = 'Väärä käyttäjätunnus tai salasana!';
+            View::make('user/login.html', array('errors' => $errors,
                 'username' => $params['username']));
         } else {
             $_SESSION['user'] = $user->id;
@@ -59,7 +58,7 @@ class UserController extends BaseController {
         $user = User::find($id);
         $userRecipes = User::findUserRecipes($id);
         $favoriteRecipes = FavoriteRecipe::find($id);
-        View::make('/user/loginHome.html', array('user' => $user,
+        View::make('user/loginHome.html', array('user' => $user,
             'userRecipes' => $userRecipes,
             'favoriteRecipes' => $favoriteRecipes));
     }
@@ -89,34 +88,39 @@ class UserController extends BaseController {
         Redirect::to('/user/' . $user->id . '/loginHome', array('message' => 'Resepti on poistettu suosikeista'));
     }
 
-    public static function changePassword($id) {
-        View::make('/user/changePassword.html');
+    public static function userInformation($id) {
+        View::make('user/userInformation.html');
     }
-    
+
     public static function updatePassword($id) {
         $params = $_POST;
         $old_user = self::get_user_logged_in();
 
-        if ($params['password'] != $params['password_check']) {
-            View::make('/user/changePassword.html', array('message' => 'Salasanat eivät täsmää!'));
-        }
-
         $attributes = array(
             'id' => $id,
             'name' => $old_user->name,
-            'password_hash' => $params['password']
+            'password_hash' => $params['password'],
+            'password_check' => $params['password_check']
         );
 
         $user = new User($attributes);
 
         $user->update_password();
         $errors = $user->errors();
-        
+
         if (count($errors) > 0) {
-            View::make('/user/changePassword.html', array('errors' => $errors));
+            View::make('user/userInformation.html', array('errors' => $errors));
         }
 
         Redirect::to('/user/' . $user->id . '/loginHome', array('message' => 'Salasana on vaihdettu onnistuneesti'));
+    }
+
+    public static function destroy($id) {
+        $user = new User(array('id' => $id));
+        $_SESSION['user'] = null;
+        $user->destroy();
+
+        Redirect::to('/', array('message' => 'Käyttäjätunnus on poistettu onnistuneesti'));
     }
 
 }

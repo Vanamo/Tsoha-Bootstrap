@@ -2,7 +2,8 @@
 
 class Recipe extends BaseModel {
 
-    public $id, $customer_id, $name, $instructions, $tags, $ingredients, $amounts, $units;
+    public $id, $customer_id, $name, $instructions, $tags, $ingredients, $amounts, $units,
+        $delete_ingredients, $delete_tags;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -46,7 +47,8 @@ class Recipe extends BaseModel {
     }
 
     public function save() {
-        $query = DB::connection()->prepare('INSERT INTO Recipe (customer_id, name, instructions) VALUES (:customer_id, :name, :instructions) RETURNING id');
+        $query = DB::connection()->prepare('INSERT INTO Recipe (customer_id, name, instructions)
+            VALUES (:customer_id, :name, :instructions) RETURNING id');
         $query->execute(array('customer_id' => $this->customer_id, 'name' => $this->name, 'instructions' => $this->instructions));
         $row = $query->fetch();
         $this->id = $row['id'];
@@ -61,7 +63,8 @@ class Recipe extends BaseModel {
         $amounts = $this->amounts;
         $units = $this->units;
         for ($i = 0; $i < count($units); $i++) {
-            $query2 = DB::connection()->prepare('INSERT INTO Ingredientofarecipe (recipe_id, ingredient_id, unit_id, amount) VALUES (:id, :ingredient, :unit, :amount)');
+            $query2 = DB::connection()->prepare('INSERT INTO Ingredientofarecipe (recipe_id, ingredient_id, unit_id, amount)
+                VALUES (:id, :ingredient, :unit, :amount)');
             $query2->execute(array(
                 'id' => $this->id,
                 'ingredient' => $ingredients[$i],
@@ -107,13 +110,26 @@ class Recipe extends BaseModel {
         $amounts = $this->amounts;
         $units = $this->units;
         for ($i = 0; $i < count($units); $i++) {
-            $query2 = DB::connection()->prepare('INSERT INTO Ingredientofarecipe (recipe_id, ingredient_id, unit_id, amount) VALUES (:id, :ingredient, :unit, :amount)');
+            $query2 = DB::connection()->prepare('INSERT INTO Ingredientofarecipe (recipe_id, ingredient_id, unit_id, amount)
+                VALUES (:id, :ingredient, :unit, :amount)');
             $query2->execute(array(
                 'id' => $this->id,
                 'ingredient' => $ingredients[$i],
                 'unit' => $units[$i],
                 'amount' => $amounts[$i]
             ));
+        }
+        
+        $delete_ingredients = $this->delete_ingredients;
+        foreach ($delete_ingredients as $delete_ingredient) {
+            $query3 = DB::connection()->prepare('DELETE FROM Ingredientofarecipe WHERE id = :id' );
+            $query3->execute(array('id' => $delete_ingredient));
+        }
+                
+        $delete_tags = $this->delete_tags;
+        foreach ($delete_tags as $delete_tag) {
+            $query4 = DB::connection()->prepare('DELETE FROM Tagofarecipe WHERE id = :id' );
+            $query4->execute(array('id' => $delete_tag));
         }
     }
 

@@ -2,13 +2,14 @@
 
 class User extends BaseModel {
 
-    public $id, $name, $password_hash, $salt;
+    public $id, $name, $password_hash, $password_check, $salt;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
         $this->validators = array('validate_password_length',
             'validate_username_length',
-            'validate_individual_username');
+            'validate_individual_username',
+            'validate_password_check');
     }
 
     public static function authenticate($name, $password_hash) {
@@ -77,6 +78,19 @@ class User extends BaseModel {
             'password_hash' => $this->password_hash));
     }
 
+    public function destroy() {
+        $id = $this->id;
+
+        $query = DB::connection()->prepare('DELETE FROM Favoriterecipe WHERE customer_id = :id');
+        $query->execute(array('id' => $id));
+
+        $query2 = DB::connection()->prepare('UPDATE Recipe SET customer_id = NULL WHERE customer_id = :id');
+        $query2->execute(array('id' => $id));
+
+        $query3 = DB::connection()->prepare('DELETE FROM Customer WHERE id = :id');
+        $query3->execute(array('id' => $id));
+    }
+
     public function validate_password_length() {
         return $this->validate_string_length($this->password_hash, 5, 'Salasana');
     }
@@ -84,9 +98,23 @@ class User extends BaseModel {
     public function validate_username_length() {
         return $this->validate_string_length($this->name, 3, 'Käyttäjätunnus');
     }
-        
+
     public function validate_individual_username() {
         $table = 'Customer';
         return $this->validate_individual($this->name, $this->id, $table);
     }
+
+    public function validate_password_check() {
+        $errors = array();
+        $string1 = $this->password_check;
+        $string2 = $this->password_hash;
+        if (is_null($string1)) {
+            return $errors;
+        }        
+        if (strcmp($string1, $string2) !== 0) {
+            $errors[] = 'Salasanat eivät täsmää';
+        }
+        return $errors;
+    }
+
 }

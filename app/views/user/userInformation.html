@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% import "macros/forms.html" as forms %}
 
 {% if errors %}
 <div class="alert alert-danger">
@@ -11,7 +12,9 @@
 </div>
 {% endif %}
 
-<h1>Vaihda salasana</h1>
+<h2>Käyttäjätunnus: {{user_logged_in.name}}</h2>
+
+<h2>Vaihda salasana</h2>
 
 <form method="post" action="{{base_path}}/user/{{user_logged_in.id}}/changePassword">
     <div class="form-group">
@@ -26,5 +29,11 @@
 
     <button class="btn btn-primary" type="submit">Vaihda salasana</button>
 </form>
+
+<h2>Poista käyttäjätunnus</h2>
+<div class="form-group">
+    <!-- Poista-nappi -->
+    {{forms.destroy_button("#{base_path}/user/#{user_logged_in.id}/destroy")}}
+</div>
 
 {% endblock %}  

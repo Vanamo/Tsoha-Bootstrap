@@ -7,18 +7,18 @@ class RecipeController extends BaseController {
         $recipe = Recipe::find($id);
         $ingredientsOfARecipe = IngredientOfARecipe::findIngredientsOfARecipe($id);
         $tagsOfARecipe = TagOfARecipe::findTagsOfARecipe($id);
-        $isFavorite;
-        
+        $isFavorite = null;
+
         //Jos käyttäjä on kirjautunut, tarkistetaan onko resepti suosikeissa
-        if (self::check_logged_in()) {
+        if (isset($_SESSION['user'])) {
             $user = self::get_user_logged_in();
-                $attributes = array(
-                    'recipe_id' => $recipe->id,
-                    'customer_id' => $user->id
-                );
+            $attributes = array(
+                'recipe_id' => $recipe->id,
+                'customer_id' => $user->id
+            );
 
             $favoriteRecipe = new FavoriteRecipe($attributes);
-            $isFavorite = $favoriteRecipe->check_if_favorite();            
+            $isFavorite = $favoriteRecipe->check_if_favorite();
         } else {
             $isFavorite = false;
         }
@@ -29,7 +29,6 @@ class RecipeController extends BaseController {
     }
 
     public static function create() {
-        self::check_logged_in();
         $ingredients = Ingredient::all();
         $tags = Tag::all();
         $units = Unit::all();
@@ -69,7 +68,7 @@ class RecipeController extends BaseController {
 
         $recipe = new Recipe($attributes);
         $errors = $recipe->errors();
-        
+
         if (count($errors) == 0) {
             $recipe->save();
             Redirect::to('/recipe/' . $recipe->id, array('message' => 'Resepti on lisätty Keittokirjaan'));
@@ -77,7 +76,7 @@ class RecipeController extends BaseController {
             $ingredients = Ingredient::all();
             $tags = Tag::all();
             $units = Unit::all();
-            View::make('/recipe/addRecipe.html', array('errors' => $errors, 'attributes' => $attributes,
+            View::make('recipe/addRecipe.html', array('errors' => $errors, 'attributes' => $attributes,
                 'ingredients' => $ingredients, 'tags' => $tags, 'units' => $units));
         }
     }
@@ -102,8 +101,16 @@ class RecipeController extends BaseController {
         self::check_logged_in();
         $params = $_POST;
         $tags = array();
+        $delete_ingredients = array();
+        $delete_tags = array();
         if (isset($params['tags'])) {
             $tags = $params['tags'];
+        }
+        if (isset($params['delete_ingredients'])) {
+            $delete_ingredients = $params['delete_ingredients'];
+        }
+        if (isset($params['delete_tags'])) {
+            $delete_tags = $params['delete_tags'];
         }
         $ingredients = $params['ingredients'];
         $amounts = $params['amounts'];
@@ -112,11 +119,19 @@ class RecipeController extends BaseController {
             'id' => $id,
             'name' => $params['name'],
             'instructions' => $params['instructions'],
-            'tags' => array()
+            'tags' => array(),
+            'delete_ingredients' => array(),
+            'delete_tags' => array()
         );
 
         foreach ($tags as $tag) {
             $attributes['tags'][] = $tag;
+        }
+        foreach ($delete_ingredients as $delete_ingredient) {
+            $attributes['delete_ingredients'][] = $delete_ingredient;
+        }
+        foreach ($delete_tags as $delete_tag) {
+            $attributes['delete_tags'][] = $delete_tag;
         }
         for ($i = 0; $i < count($ingredients); $i++) {
             if ($ingredients[$i] == -1) {
@@ -127,6 +142,7 @@ class RecipeController extends BaseController {
             $attributes['units'][] = $units[$i];
         }
 
+
         $recipe = new Recipe($attributes);
         $errors = $recipe->errors();
         if (count($errors) > 0) {
@@ -136,9 +152,9 @@ class RecipeController extends BaseController {
             View::make('recipe/edit.html', array('errors' => $errors, 'attributes' => $attributes,
                 'ingredients' => $ingredients, 'tags' => $tags, 'units' => $units));
         } else {
-        $recipe->update();
+            $recipe->update();
 
-        Redirect::to('/recipe/' . $recipe->id, array('message' => 'Reseptiä on muokattu onnistuneesti'));
+            Redirect::to('/recipe/' . $recipe->id, array('message' => 'Reseptiä on muokattu onnistuneesti'));
         }
     }
 

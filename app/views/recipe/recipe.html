@@ -59,7 +59,7 @@
 {% endif %}
 </div>
 
-{% if user_logged_in.id == recipe.customer_id %}
+{% if recipe.customer_id is not null and user_logged_in.id == recipe.customer_id %}
 <div class="form-group">
     <!-- Muokkaa reseptiä -nappi -->
     <a class="btn btn-primary" href="{{base_path}}/recipe/{{recipe.id}}/edit">Muokkaa reseptiä</a>
